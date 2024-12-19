@@ -1,0 +1,29 @@
+services:
+    pgsql:
+        image: 'postgres:14'
+        ports:
+            - '5432:5432'
+        environment:
+            PGPASSWORD: 'Turc0sBata22'
+            DB_DATABASE: 'canvas_production'
+            DB_USERNAME: 'canvas'
+            POSTGRES_DB: 'canvas_production'
+            POSTGRES_USER: 'canvas'
+            POSTGRES_PASSWORD: 'Turc0sBata22'
+        volumes:
+            - 'sail-pgsql:/var/lib/postgresql/data'
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE}'
+                - '-U'
+                - '${DB_USERNAME}'
+            retries: 3
+            timeout: 5s
+
+volumes:
+    sail-pgsql:
+        driver: local
